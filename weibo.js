@@ -37,7 +37,7 @@ exports.getUnread = function(cb) {
 
 exports.getMentions = function(count, cb) {
 	request.get(
-		'https://api.weibo.com/2/statuses/mentions.json?access_token=' + config.token,
+		'https://api.weibo.com/2/statuses/mentions.json?access_token=' + config.token+"&count="+count,
 		function(error, response, body) {
 			if (!error && response.statusCode == 200) {
 				console.log("get mentions success");

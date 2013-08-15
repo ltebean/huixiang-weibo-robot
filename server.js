@@ -29,9 +29,9 @@ function checkMentions() {
 		},
 		function getUnreadMentions(unread) {
 			if (!unread || unread.mention_status == 0) {
-				//return;
+				return;
 			}
-			weibo.getMentions(3, this)
+			weibo.getMentions(unread.mention_status, this)
 		},
 		function sendReply(mentions) {
 			if (!mentions || mentions.length == 0) {
