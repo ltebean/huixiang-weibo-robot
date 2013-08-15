@@ -1,8 +1,10 @@
 {
 	"mysql": {
-		"host": "localhost",
-		"user": "test",
-		"password": "test"
+		"host":"mysql",
+        	"user":"huixiang",
+        	"password":"fennel",
+        	"socketPath":"/var/lib/mysql/mysql.sock",
+     	  	"database":"huixiang"
 	},
 	"token":"2.00C2CEAEW93AsCacf7e25d1a1HXORC"
 }
