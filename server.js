@@ -15,11 +15,11 @@ connection.query('USE huixiang');
 connection.query(
 	'SELECT content FROM piece ' +
 	'order by RAND() limit 1',
-	function selectCb(err, piece, fields) {
+	function selectCb(err, pieces, fields) {
 		if (err) {
 			throw err;
 		}
-		piece.forEach(function(cartoon) {
+		pieces.forEach(function(piece) {
 			share(piece.content));
 			connection.end();
 		});
