@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "request": "~2.16.6",
-    "mysql":"2.0.0-alpha8"
+    "mysql":"2.0.0-alpha8",
+    "optimist": "0.3.7"
   }
 }

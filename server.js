@@ -1,13 +1,12 @@
-var token = "2.00C2CEAEW93AsCacf7e25d1a1HXORC";
-
 
 var request = require('request');
 var mysql = require('mysql');
+var config=require('./config.js').loadConfig();
 
 var connection = mysql.createConnection({
-	host: 'localhost',
-	user: '',
-	password: '',
+	host: config.mysql.host,
+	user: config.mysql.username,
+	password: config.mysql.password,
 	insecureAuth: true
 });
 
@@ -20,17 +19,18 @@ connection.query(
 			throw err;
 		}
 		pieces.forEach(function(piece) {
-			share(piece.content));
+			share(piece.content);
 			connection.end();
 		});
 	}
 );
 
+share("test");
 function share(content) {
 	request.post(
 		'https://api.weibo.com/2/statuses/update.json', {
 			form: {
-				access_token: token,
+				access_token: config.token,
 				status: "「"+content+"」－摘自#茴香#"
 			}
 		},
