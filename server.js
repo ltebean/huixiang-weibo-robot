@@ -20,7 +20,7 @@ connection.query(
 	}
 );
 
-share("test");
+//share("test");
 function share(content) {
 	request.post(
 		'https://api.weibo.com/2/statuses/update.json', {
