@@ -19,7 +19,7 @@ connection.query(
 		if (err) {
 			throw err;
 		}
-		cartoons.forEach(function(cartoon) {
+		piece.forEach(function(cartoon) {
 			share(piece.content));
 			connection.end();
 		});
