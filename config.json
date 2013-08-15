@@ -1,7 +1,7 @@
 {
 	"mysql": {
 		"host": "localhost",
-		"username": "test",
+		"user": "test",
 		"password": "test"
 	},
 	"token":"2.00C2CEAEW93AsCacf7e25d1a1HXORC"

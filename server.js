@@ -3,12 +3,7 @@ var request = require('request');
 var mysql = require('mysql');
 var config=require('./config.js').loadConfig();
 
-var connection = mysql.createConnection({
-	host: config.mysql.host,
-	user: config.mysql.username,
-	password: config.mysql.password,
-	insecureAuth: true
-});
+var connection = mysql.createConnection(config.mysql);
 
 connection.query('USE huixiang');
 connection.query(
