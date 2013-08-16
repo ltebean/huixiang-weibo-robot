@@ -88,7 +88,7 @@ function checkMentions() {
 			function checkUser() {
 				connection.query(
 					'SELECT * FROM user ' +
-					'where weiboid=' + weiboId,
+					'where weibo_id=' + weiboId,
 					function selectCb(err, users, fields) {
 						if (err) {
 							throw err;
