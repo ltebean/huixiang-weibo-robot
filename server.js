@@ -1,4 +1,5 @@
 var request = require('request');
+var moment = require('moment');
 var mysql = require('mysql');
 var config = require('./config.js').loadConfig();
 var weibo = require('./weibo.js');
@@ -6,15 +7,15 @@ var Step = require('step');
 var cronJob = require('cron').CronJob;
 
 new cronJob({
-  cronTime: '*/1 * * * *',
-  onTick: checkMentions,
-  start: true
+	cronTime: '*/1 * * * *',
+	onTick: checkMentions,
+	start: true
 }).start();
 
 new cronJob({
-  cronTime: '0 * * * *',
-  onTick: autoShare,
-  start: true
+	cronTime: '0 * * * *',
+	onTick: autoShare,
+	start: true
 }).start();
 
 function autoShare() {
@@ -29,8 +30,8 @@ function autoShare() {
 			}
 			pieces.forEach(function(piece) {
 				weibo.share(piece.content);
-				connection.end();
 			});
+			connection.end();
 		}
 	);
 }
@@ -60,9 +61,8 @@ function checkMentions() {
 					content = truncateContent(mention.text);
 				}
 				var userWeiboId = mention.user.id;
-				if(content){
-					createPiece(userWeiboId, content);
-					weibo.comment(mention.id, "已添加至收藏~");
+				if (content) {
+					createPiece(userWeiboId, mention.id, content,mention.retweeted_status);
 				}
 			};
 			weibo.clearUnread();
@@ -80,10 +80,42 @@ function checkMentions() {
 		return null;
 	}
 
-	function createPiece(weiboId, content) {
+	function createPiece(weiboId, mentionId, content,retweet) {
 		console.log("create piece success: " + content);
-		//todo
+
+		var connection = mysql.createConnection(config.mysql);
+		Step(
+			function checkUser() {
+				connection.query(
+					'SELECT * FROM user ' +
+					'where weiboid=' + weiboId,
+					function selectCb(err, users, fields) {
+						if (err) {
+							throw err;
+						}
+						if (!users.length) {
+							weibo.comment(mentionId, "请注册^^");
+							console.log("new user: need sign up");
+							return false;
+						}
+						return users[0];
+					}
+				);
+			}, function createPiece(user) {
+				if (user) {
+					console.log("insert piece into db");
+					connection.query(
+						'INSERT into piece set ? ', {
+							content: content,
+							user: user.id,
+							addtime:moment().format("YYYY-MM-DD hh:mm:ss"),
+							link: retweet && "http://weibo.com/"+retweet.user.id+"/"+retweet.id
+						}, function() {
+							weibo.comment(mention.id, "已添加至收藏~");
+						})
+				}
+
+			});
+
 	}
 }
-
-

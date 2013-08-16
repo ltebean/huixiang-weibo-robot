@@ -6,9 +6,10 @@
   },
   "dependencies": {
     "request": "~2.16.6",
-    "mysql":"2.0.0-alpha8",
+    "mysql": "2.0.0-alpha8",
     "optimist": "0.3.7",
     "step": "0.0.5",
-    "cron": "1.0.1"
+    "cron": "1.0.1",
+    "moment": "~2.1.0"
   }
 }
