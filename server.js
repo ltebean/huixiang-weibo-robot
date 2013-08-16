@@ -3,6 +3,19 @@ var mysql = require('mysql');
 var config = require('./config.js').loadConfig();
 var weibo = require('./weibo.js');
 var Step = require('step');
+var cronJob = require('cron').CronJob;
+
+new cronJob({
+  cronTime: '*/1 * * * *',
+  onTick: checkMentions,
+  start: true
+}).start();
+
+new cronJob({
+  cronTime: '0 * * * *',
+  onTick: autoShare,
+  start: true
+}).start();
 
 function autoShare() {
 	var connection = mysql.createConnection(config.mysql);
@@ -33,7 +46,7 @@ function checkMentions() {
 			}
 			weibo.getMentions(unreadCount.mention_status, this);
 		},
-		function sendReply(mentions) {
+		function createPieceFromMention(mentions) {
 			if (!mentions || mentions.length == 0) {
 				return;
 			}
@@ -69,9 +82,8 @@ function checkMentions() {
 
 	function createPiece(weiboId, content) {
 		console.log("create piece success: " + content);
+		//todo
 	}
 }
 
 
-
-checkMentions();
