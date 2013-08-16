@@ -24,14 +24,14 @@ function autoShare() {
 
 function checkMentions() {
 	Step(
-		function getUnread() {
+		function getUnreadCount() {
 			weibo.getUnread(this);
 		},
-		function getUnreadMentions(unread) {
-			if (!unread || unread.mention_status == 0) {
+		function getUnreadMentions(unreadCount) {
+			if (!unreadCount || unreadCount.mention_status == 0) {
 				return;
 			}
-			weibo.getMentions(unread.mention_status, this)
+			weibo.getMentions(unreadCount.mention_status, this);
 		},
 		function sendReply(mentions) {
 			if (!mentions || mentions.length == 0) {
@@ -39,10 +39,18 @@ function checkMentions() {
 			}
 			for (var i = mentions.length - 1; i >= 0; i--) {
 				var mention = mentions[i];
-				var content=truncateContent(mention.text);
-				var userWeiboId=mention.user.id;
-				//insert content into db by user
-				weibo.comment(mention.id, "已收藏~");
+				var content;
+				// check retweet
+				if (mention.retweeted_status) {
+					content = mention.retweeted_status.text;
+				} else {
+					content = truncateContent(mention.text);
+				}
+				var userWeiboId = mention.user.id;
+				if(content){
+					createPiece(userWeiboId, content);
+					weibo.comment(mention.id, "已添加至收藏~");
+				}
 			};
 			weibo.clearUnread();
 		});
@@ -51,10 +59,19 @@ function checkMentions() {
 		var result = /@\S+ (.+)/.exec(mention);
 		if (result && result[1]) {
 			return result[1];
-		} else {
-			return /(.+)@\S+/.exec(mention)[1];
 		}
+		result = /(.+)@\S+/.exec(mention);
+		if (result && result[1]) {
+			return result[1];
+		}
+		return null;
+	}
+
+	function createPiece(weiboId, content) {
+		console.log("create piece success: " + content);
 	}
 }
+
+
 
 checkMentions();
