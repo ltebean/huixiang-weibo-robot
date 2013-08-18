@@ -23,6 +23,7 @@ function autoShare() {
 	connection.query('USE huixiang');
 	connection.query(
 		'SELECT content FROM piece ' +
+		'where length(content) > 30 ' +
 		'order by RAND() limit 1',
 		function selectCb(err, pieces, fields) {
 			if (err) {
