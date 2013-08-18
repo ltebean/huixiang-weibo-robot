@@ -7,13 +7,13 @@ var Step = require('step');
 var cronJob = require('cron').CronJob;
 
 new cronJob({
-	cronTime: '*/1 * * * *',
+	cronTime: config.cron.checkMentions,
 	onTick: checkMentions,
 	start: true
 }).start();
 
 new cronJob({
-	cronTime: '0 * * * *',
+	cronTime: config.cron.autoShare,
 	onTick: autoShare,
 	start: true
 }).start();
@@ -42,13 +42,13 @@ function checkMentions() {
 			weibo.getUnread(this);
 		},
 		function getUnreadMentions(unreadCount) {
-			if (!unreadCount || unreadCount.mention_status == 0) {
+			if (!unreadCount || unreadCount.mention_status === 0) {
 				return;
 			}
 			weibo.getMentions(unreadCount.mention_status, this);
 		},
 		function createPieceFromMention(mentions) {
-			if (!mentions || mentions.length == 0) {
+			if (!mentions || mentions.length === 0) {
 				return;
 			}
 			for (var i = mentions.length - 1; i >= 0; i--) {
@@ -64,7 +64,7 @@ function checkMentions() {
 				if (content) {
 					createPiece(userWeiboId, mention.id, content, mention.retweeted_status);
 				}
-			};
+			}
 			weibo.clearUnread();
 		});
 

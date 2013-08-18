@@ -1,0 +1,14 @@
+{
+    "mysql": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "socketPath": "",
+        "database": "huixiang"
+    },
+    "token": "",
+    "cron":{
+        "autoShare":"30 8,12,18,22 * * *",
+        "checkMentions":"*/1 * * * *"
+    }
+}
