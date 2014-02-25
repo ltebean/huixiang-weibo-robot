@@ -36,6 +36,16 @@ function autoShare() {
 	);
 }
 
+function autoShareByWebAPI(){
+	var request = require('request');
+    request("http://huixiang.im/api/pieces", function(error, response, body) {
+        if (!error && response.statusCode == 200 && body) {
+            var data = JSON.parse(body);
+            weibo.share(data[0].content);               
+        } 
+    });
+}
+
 function checkMentions() {
 	Step(
 		function getUnreadCount() {
