@@ -1,4 +1,5 @@
 var request = require('request');
+var moment = require('moment');
 var config = require('./config.js').loadConfig();
 
 exports.share = function(content) {
@@ -11,7 +12,7 @@ exports.share = function(content) {
 		},
 		function(error, response, body) {
 			if (!error && response.statusCode == 200) {
-				console.log("share success");
+				console.log("share success",moment().format("YYYY-MM-DD hh:mm:ss"));
 			} else {
 				console.log("share fail");
 				console.log(body);
