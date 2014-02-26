@@ -7,7 +7,7 @@ exports.loadConfig = function() {
 	if (!config) {
 		var path = args.config;
 		if(!path){
-			path="./config.json"
+			path="./config.json.sample"
 		}
 		var s = fs.readFileSync(path.toString(), 'utf8');
 		config=JSON.parse(s);

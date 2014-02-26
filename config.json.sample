@@ -6,7 +6,7 @@
         "socketPath": "",
         "database": "huixiang"
     },
-    "token": "",
+    "token": "2.00C2CEAEW93AsC9281ec1109kl_dnD",
     "cron":{
         "autoShare":"30 8,12,18,22 * * *",
         "checkMentions":"*/1 * * * *"

@@ -6,17 +6,17 @@ var weibo = require('./weibo.js');
 var Step = require('step');
 var cronJob = require('cron').CronJob;
 
-new cronJob({
-	cronTime: config.cron.checkMentions,
-	onTick: checkMentions,
-	start: true
-}).start();
+// new cronJob({
+// 	cronTime: config.cron.checkMentions,
+// 	onTick: checkMentions,
+// 	start: true
+// }).start();
 
-new cronJob({
-	cronTime: config.cron.autoShare,
-	onTick: autoShare,
-	start: true
-}).start();
+// new cronJob({
+// 	cronTime: config.cron.autoShare,
+// 	onTick: autoShare,
+// 	start: true
+// }).start();
 
 function autoShare() {
 	var connection = mysql.createConnection(config.mysql);
